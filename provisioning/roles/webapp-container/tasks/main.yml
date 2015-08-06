@@ -1,6 +1,6 @@
 ---
 - name: create Apache VirtualHost for app
-  template: src=apache2.vhost.j2 dest=/etc/apache2/sites-available/{{ APPNAME }}.conf
+  template: src=apache2.vhost.j2 dest=/etc/apache2/sites-available/{{ APPNAME }}
   notify:
     restart Apache
 
@@ -9,8 +9,13 @@
   notify:
     restart PHP5-FPM
 
+- name: add FastCGI worker poo
+  template: src=fastcgi.conf.j2 dest=/etc/apache2/mods-available
+  notify:
+    restart Apache
+
 - name: enable Apache VirtualHost for app
-  command: creates=/etc/apache2/sites-enabled/{{ APPNAME }}.conf
+  command: creates=/etc/apache2/sites-enabled/{{ APPNAME }}
     a2ensite {{ APPNAME }}
   notify:
     restart Apache

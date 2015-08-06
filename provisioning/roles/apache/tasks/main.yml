@@ -2,8 +2,18 @@
 - name: APT install package
   apt: name=apache2
 
+- name: Add Debian non-free to be able to get the non-free fastcgi module
+  apt_repository: repo='deb http://mirrorservice.org/sites/ftp.debian.org/debian/ {{ ansible_lsb.codename }} non-free' state=present
+  when: ansible_distribution == "Debian"
+
+- name: APT install fastcgi
+  apt: name=libapache2-mod-fastcgi
+
 - name: enable FastCGI module
-  apache2_module: name=proxy_fcgi
+  apache2_module: name=fastcgi
 
 - name: enable Rewrite module
   apache2_module: name=rewrite
+
+- name: enable Action module
+  apache2_module: name=actions

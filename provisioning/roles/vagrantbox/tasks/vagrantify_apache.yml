@@ -1,9 +1,15 @@
 ---
 - name: apache | disable default site
-  command: removes=/etc/apache2/sites-enabled/000-default.conf
+  command: removes=/etc/apache2/sites-enabled/000-default
     a2dissite 000-default
   notify:
     restart Apache
+
+- name: remove apache lock file
+  file: path=/var/lock/apache2 state=absent
+
+- name: remove apache fastcgi lock file
+  file: path=/var/lib/apache2/fastcgi state=absent
 
 - name: apache | run process under the 'vagrant' user account
   lineinfile: dest=/etc/apache2/envvars

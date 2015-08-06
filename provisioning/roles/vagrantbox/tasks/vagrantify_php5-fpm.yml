@@ -1,8 +1,8 @@
 ---
-- name: php5-fpm | start application after the /vagrant share has become available
-  lineinfile: dest=/etc/init/php5-fpm.conf
-    regexp='^start on'
-    line='start on vagrant-mounted'
+# - name: php5-fpm | start application after the /vagrant share has become available
+#   lineinfile: dest=/etc/php5/fpm/php-fpm.conf
+#     regexp='^start on'
+#     line='start on vagrant-mounted'
 
 - name: php5-fpm | don't hide error logs while in development
   replace: dest=/etc/php5/fpm/php.ini

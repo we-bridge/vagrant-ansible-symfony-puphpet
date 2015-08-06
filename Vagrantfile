@@ -3,11 +3,11 @@
 
 ## Define some app-specific stuff to be used later during provisioning: ##
 app_vars = {
-  # APPNAME: 'MyApplication',
+  APPNAME: 'ef-promo',
   DBNAME: 'symfony',
   DBUSER: 'vagrant',
   DBPASSWORD: 'vagrant',
-  DBTYPE: 'postgresql' # 'mysql' or 'postgresql'
+  DBTYPE: 'mysql' # 'mysql' or 'postgresql'
 }
 # ansible_verbosity = 'vvvv'
 ##########################################################################
@@ -20,7 +20,8 @@ def host_box_is_unixy?
 end
 
 Vagrant.configure(2) do |config|
-  config.vm.box = "ubuntu/trusty64"
+
+  config.vm.box = "puphpet/debian75-x64"
 
   verbosity_arg = if defined? ansible_verbosity then ansible_verbosity else '' end
   if host_box_is_unixy?
@@ -49,7 +50,12 @@ PYTHONUNBUFFERED=1 ansible-playbook --connection=local -i "[default] $(hostname)
 END
   end
 
-  config.vm.network "forwarded_port", guest: 80, host: 8080
+  config.vm.network "forwarded_port", guest: 80, host: 8282
   config.vm.network "private_network", ip: "192.168.50.4"
 
+end
+
+Vagrant.configure(2) do |config|
+  config.vm.provision "shell", inline: "echo 'Starting fpm'; sudo service php5-fpm start",
+    run: "always"
 end

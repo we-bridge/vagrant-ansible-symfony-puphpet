@@ -3,7 +3,7 @@
 user = {{ APPUSER }}
 group = {{ APPUSER }}
 
-listen = 127.0.0.1:9000
+listen = /var/run/php5-fpm-{{ APPNAME }}.sock
 listen.owner = {{ APPUSER }}
 listen.group = {{ APPUSER }}
 
